@@ -1,60 +1,66 @@
+local map = vim.keymap.set
+
 vim.g.mapleader = " "
 
-vim.keymap.set("n", "<leader>pv", "<CMD>Oil<CR>")
-vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+map("n", "<leader>pv", "<CMD>Oil<CR>")
+map("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+map("v", "J", ":m '>+1<CR>gv=gv")
+map("v", "K", ":m '<-2<CR>gv=gv")
 
-vim.keymap.set("n", "J", "mzJ`z")
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
+map("n", "J", "mzJ`z")
+map("n", "<C-d>", "<C-d>zz")
+map("n", "<C-u>", "<C-u>zz")
+map("n", "n", "nzzzv")
+map("n", "N", "Nzzzv")
 
 -- greatest remap ever
-vim.keymap.set("x", "<leader>pk", [["_dP]])
+map("x", "<leader>pk", [["_dP]])
 
 -- next greatest remap ever : asbjornHaland
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])
+map({ "n", "v" }, "<leader>y", [["+y]])
+map("n", "<leader>Y", [["+Y]])
 
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
+-- Paste from clipboard
+map("n", "<leader>P", [["+p]], { desc = "Paste from clipboard" })
+
+map({ "n", "v" }, "<leader>d", [["_d]])
 
 -- This is going to get me cancelled
-vim.keymap.set("i", "<C-c>", "<Esc>")
+map("i", "<C-c>", "<Esc>")
 
-vim.keymap.set("n", "Q", "<nop>")
--- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
-vim.keymap.set("n", "<leader>f", ":Neoformat<CR>")
-vim.keymap.set("n", "<leader>lf", "<cmd>LspZeroFormat<CR>")
+map("n", "Q", "<nop>")
+-- map("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+map("n", "<leader>fn", ":Neoformat<CR>")
+map("n", "<leader>fl", vim.lsp.buf.format)
 
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 -- Debugger remaps
-local function is_dap_running()
-    local session = require('dap').session()
-    return session ~= nil
-end
-
-vim.keymap.set("n", "<F6>", function()
-    if vim.bo.filetype == "cs" and not is_dap_running() then
-        Find_dlls(Launch_dapui)
-    else
-        require('dap').continue()
-    end
-end)
-vim.keymap.set("n", "<F7>", ":lua require'dap'.step_over()<CR>")
-vim.keymap.set("n", "<F8>", ":lua require'dap'.step_into()<CR>")
-vim.keymap.set("n", "<F9>", ":lua require'dap'.step_out()<CR>")
-vim.keymap.set("n", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>")
-vim.keymap.set("n", "<leader>B", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
-vim.keymap.set("n", "<leader>lp", ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
-vim.keymap.set("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>")
+-- local function is_dap_running()
+--     local session = require('dap').session()
+--     return session ~= nil
+-- end
+-- 
+-- 
+-- map("n", "<F6>", function()
+--     if vim.bo.filetype == "cs" and not is_dap_running() then
+--         Find_dlls(Launch_dapui)
+--     else
+--         require('dap').continue()
+--     end
+-- end)
+-- map("n", "<F7>", ":lua require'dap'.step_over()<CR>")
+-- map("n", "<F8>", ":lua require'dap'.step_into()<CR>")
+-- map("n", "<F9>", ":lua require'dap'.step_out()<CR>")
+-- map("n", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>")
+-- map("n", "<leader>B", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
+-- map("n", "<leader>blp", ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
+-- map("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>")
 
 
 -- Trouble
-vim.keymap.set("n", "<leader>tt", "<cmd>TroubleToggle<cr>",
+map("n", "<leader>tt", "<cmd>TroubleToggle<cr>",
     { silent = true, noremap = true }
 )
 
@@ -70,9 +76,15 @@ function Split_tmux_vertical()
     vim.fn.system(cmd)
 end
 
-vim.keymap.set("n", "<leader>tp", Split_tmux_vertical)
+map("n", "<leader>tp", Split_tmux_vertical)
 
 -- Copilot
 vim.g.copilot_no_tab_map = true
 
 vim.api.nvim_set_keymap("i", "<C-Q>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
+
+-- Window switching
+map("n", '<C-h>', '<C-w>h')
+map("n", '<C-j>', '<C-w>j')
+map("n", '<C-k>', '<C-w>k')
+map("n", '<C-l>', '<C-w>l')

@@ -65,12 +65,14 @@ require("lazy").setup({
         end,
     },
     { "LhKipp/nvim-nu" },
-    { "jubnzv/virtual-types.nvim" },
     {
         'rose-pine/neovim',
         name = 'rose-pine'
     },
-    { "folke/neodev.nvim",              opts = {} },
+    {
+        "folke/neodev.nvim",
+        opts = {}
+    },
     { "HiPhish/rainbow-delimiters.nvim" },
     {
         "folke/noice.nvim",
@@ -94,5 +96,20 @@ require("lazy").setup({
     {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
+    },
+    { "romainl/vim-cool" },
+    { "mfussenegger/nvim-jdtls" },
+    {
+        "numToStr/Comment.nvim",
+        opts = {
+            -- add any options here
+        },
+        lazy = false,
+    },
+    {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release '
+            .. '&& cmake --build build --config Release '
+            .. '&& cmake --install build --prefix build',
     }
 })

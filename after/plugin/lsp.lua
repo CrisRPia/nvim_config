@@ -1,7 +1,7 @@
 local lsp_zero = require("lsp-zero")
 
 require('luasnip.loaders.from_vscode').lazy_load()
-require("neodev").setup {}
+require("neodev").setup({})
 
 vim.diagnostic.config({
     virtual_text = true,
@@ -15,12 +15,18 @@ vim.diagnostic.config({
     },
 })
 
-lsp_zero.on_attach(function(client, bufnr)
+lsp_zero.on_attach(function(_ --[[ client ]], bufnr)
     -- see :help lsp_zero-keybindings
     -- to learn the available actions
     lsp_zero.default_keymaps({ buffer = bufnr })
-    require 'virtualtypes'.on_attach()
 end)
+
+lsp_zero.configure("jdtls", {
+    -- FIXME: This is a workaround to prevent lsp_zero from using
+    -- jdtls, since I wanna config it myself.
+    cmd = ""
+})
+
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
@@ -31,12 +37,6 @@ require('mason-lspconfig').setup({
 
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp_zero.defaults.cmp_mappings({
-    ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-    ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-    ['<Enter>'] = cmp.mapping.confirm({ select = true }),
-    ["<C-E>"] = cmp.mapping.complete(),
-})
 
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('user_lsp_attach', { clear = true }),
@@ -45,28 +45,40 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
         vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
         vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, opts)
+        ---@diagnostic disable-next-line: missing-parameter
         vim.keymap.set('n', '<leader>vws', function() vim.lsp.buf.workspace_symbol() end, opts)
-        vim.keymap.set('n', '<leader>vd', function() vim.diagnostic.open_float() end, opts)
-        vim.keymap.set('n', '[d', function() vim.diagnostic.goto_next() end, opts)
-        vim.keymap.set('n', ']d', function() vim.diagnostic.goto_prev() end, opts)
+        vim.keymap.set('n', '<leader>dn', function() vim.diagnostic.goto_next() end, opts)
+        vim.keymap.set('n', '<leader>dp', function() vim.diagnostic.goto_prev() end, opts)
         vim.keymap.set('n', '<leader>vca', function() vim.lsp.buf.code_action() end, opts)
-        vim.keymap.set('n', '<leader>vrn', function() vim.lsp.buf.rename() end, opts)
+        vim.keymap.set('n', '<leader>rn', function() vim.lsp.buf.rename() end, opts)
         vim.keymap.set('i', '<C-h>', function() vim.lsp.buf.signature_help() end, opts)
     end,
 })
 
 cmp.setup({
     preselect = 'item',
-    window = {
-        documentation = cmp.config.window.bordered()
+    experimental = {
+        ghost_text = true,
     },
-    mapping = cmp_mappings,
+    window = {
+        documentation = {
+            border = cmp.config.window.bordered().border,
+        },
+    },
+    mapping = cmp.mapping.preset.insert({
+        ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+        ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+        ['<Enter>'] = cmp.mapping.confirm({ select = true }),
+        ["<C-E>"] = cmp.mapping.complete(),
+        ['<Tab>'] = nil,
+        ['<S-Tab>'] = nil,
+    }),
     sources = {
-        { name = 'nvim_lsp' },
         { name = 'nvim_lua' },
-        { name = 'luasnip' },
-        { name = 'buffer' },
+        { name = 'nvim_lsp' },
         { name = 'path' },
+        { name = 'luasnip' },
+        { name = 'buffer',  keyword_length = 5 },
     },
     snippet = {
         expand = function(args)
@@ -120,20 +132,26 @@ local cmp_kinds = {
     Operator = '  ',
     TypeParameter = '  ',
 }
+
 cmp.setup({
     formatting = {
-        fields = { "kind", "abbr" },
+        fields = { "kind", "abbr", "menu" },
         format = function(_, vim_item)
-            -- vim_item.kind = cmp_kinds[vim_item.kind] or ""
+            vim_item.kind = cmp_kinds[vim_item.kind] .. vim_item.kind
             return vim_item
         end,
+        expandable_indicator = true,
     },
+    view = {
+        entries = {
+            name = "custom",
+            selection_order = "near_cursor",
+        },
+        docs = {
+            auto_open = true
+        }
+    }
 })
-
-
-
-cmp_mappings['<Tab>'] = nil
-cmp_mappings['<S-Tab>'] = nil
 
 lsp_zero.set_sign_icons({
     error = ' ',
@@ -144,7 +162,8 @@ lsp_zero.set_sign_icons({
 
 lsp_zero.setup()
 
-require("lspconfig").powershell_es.setup {
+local lspconfig = require("lspconfig")
+lspconfig.powershell_es.setup {
     bundle_path = '~/Desktop/PowerShellEditorServices',
     settings = { powershell = { codeFormatting = { Preset = 'OTBS' } } },
 }

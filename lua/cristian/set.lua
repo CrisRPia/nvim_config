@@ -1,50 +1,39 @@
-vim.opt.nu = true
-vim.opt.relativenumber = true
+local opt = vim.opt
 
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
+opt.nu = true
+opt.relativenumber = true
 
-vim.opt.smartindent = true
+opt.tabstop = 4
+opt.softtabstop = 4
+opt.shiftwidth = 4
+opt.expandtab = true
 
-vim.opt.wrap = false
+opt.smartindent = true
 
-vim.opt.swapfile = false
-vim.opt.backup = false
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
-vim.opt.undofile = true
+opt.wrap = false
 
-vim.opt.hlsearch = false
-vim.opt.incsearch = true
-vim.opt.cursorline = false
+opt.swapfile = false
+opt.backup = false
+opt.undodir = { os.getenv("HOME") .. "/.vim/undodi" }
+opt.undofile = true
 
-vim.opt.termguicolors = true
+opt.hlsearch = true
+opt.incsearch = true
+opt.cursorline = false
 
-vim.opt.scrolloff = 8
-vim.opt.signcolumn = "yes"
-vim.opt.isfname:append("@-@")
+opt.termguicolors = true
 
-vim.opt.updatetime = 50
+opt.scrolloff = 8
+opt.signcolumn = "yes"
+opt.isfname:append("@-@")
 
-vim.opt.colorcolumn = { 80, 100, 120 }
-vim.opt.textwidth = 80
+opt.updatetime = 50
 
+opt.colorcolumn = { 80, 100, 120 }
 
--- Define autocommands for Markdown files
-function Md()
-    -- Disable spell check
-    vim.opt.spell = false
-    vim.opt.textwidth = 80
-end
+opt.laststatus = 3
 
-function Dmd()
-    vim.defer_fn(function()
-        Md()
-    end, 50)
-end
-
-vim.cmd("autocmd FileType markdown lua Dmd()")
+opt.splitright = true
 
 -- Configure whitespaces
 vim.cmd("set listchars=space:·")
