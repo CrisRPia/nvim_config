@@ -8,11 +8,13 @@ vim.keymap.set('n', '<leader>gf', builtin.git_files)
 vim.keymap.set('n', '<leader>ps', builtin.live_grep)
 vim.keymap.set('n', '<leader>pd', builtin.diagnostics)
 
+vim.keymap.set('n', '<leader>tr', builtin.resume)
+vim.keymap.set('n', '<leader>t\"', builtin.registers)
+
 telescope.setup({
     extensions = {
         ["ui-select"] = {
-            require("telescope.themes").get_dropdown({
-            })
+            require("telescope.themes").get_dropdown({ })
         }
     }
 })

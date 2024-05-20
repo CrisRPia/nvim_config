@@ -2,12 +2,12 @@ require 'treesitter-context'.setup {
     -- Enable this plugin (Can be enabled/disabled later via commands)
     enable = true,
     -- How many lines the window should span. Values <= 0 mean no limit.
-    max_lines = 0,
+    max_lines = 20,
     -- Minimum editor window height to enable context. Values <= 0 mean no limit.
     min_window_height = 0,
     line_numbers = true,
     -- Maximum number of lines to collapse for a single context line
-    multiline_threshold = 20,
+    multiline_threshold = 1,
     -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
     trim_scope = 'outer',
     -- Line used to calculate context. Choices: 'cursor', 'topline'

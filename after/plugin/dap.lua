@@ -2,7 +2,6 @@ local dap, dapui = require('dap'), require("dapui")
 
 require("dapui").setup({})
 require("nvim-dap-virtual-text").setup({})
-require('dap-python').setup('~/.virtualenvs/debugpy/bin/python')
 
 dap.listeners.after.event_initialized["dapui_config"] = function ()
     dapui.open()
@@ -26,7 +25,7 @@ dap.adapters.coreclr = {
   args = {'--interpreter=vscode'}
 }
 
---     local cmd = string.format("alacritty --working-directory '%s' &", vim.fn.expand('%:p:h'))
+--     local cmd = string.format("alacritty --working-directory '%s' &", vim.fn.expand('%:p:h'))dap
 
 
 -- All this crap is so that the debugger works properly for c#
@@ -48,8 +47,8 @@ local opts = {
   file_pattern = ".dll$",
   find_command = {'rg', '--files', '--hidden', '--no-ignore'},
   attach_mappings = function(_, map)
-    map('i', '<CR>', function(prompt_bufnr) capture_selected_path(prompt_bufnr, Faunch_dapui) end)
-    map('n', '<CR>', function(prompt_bufnr) capture_selected_path(prompt_bufnr, Faunch_dapui) end)
+    map('i', '<CR>', function(prompt_bufnr) capture_selected_path(prompt_bufnr, Launch_dapui) end)
+    map('n', '<CR>', function(prompt_bufnr) capture_selected_path(prompt_bufnr, Launch_dapui) end)
     return true
   end
 }
@@ -59,7 +58,7 @@ function Find_dlls(on_selected)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-o>I', true, true, true), 'n', false)
 end
 
-function Faunch_dapui(selected_path)
+function Launch_dapui(selected_path)
     dap.configurations.cs = {
         {
             type = "coreclr",
@@ -70,4 +69,5 @@ function Faunch_dapui(selected_path)
     }
     require('dap').continue()
 end
+
 

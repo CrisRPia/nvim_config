@@ -20,6 +20,7 @@ require("lazy").setup({
             { 'neovim/nvim-lspconfig' },
             { 'williamboman/mason.nvim' },
             { 'williamboman/mason-lspconfig.nvim' },
+            { 'jmbuhr/otter.nvim' },
 
             -- Autocompletion
             { 'hrsh7th/nvim-cmp' },
@@ -28,6 +29,7 @@ require("lazy").setup({
             { 'saadparwaiz1/cmp_luasnip' },
             { 'hrsh7th/cmp-nvim-lsp' },
             { 'hrsh7th/cmp-nvim-lua' },
+            { 'dmitmel/cmp-digraphs' },
 
             -- Snippets
             { 'L3MON4D3/LuaSnip' },
@@ -38,9 +40,9 @@ require("lazy").setup({
     { "mfussenegger/nvim-dap" },
     {
         "rcarriga/nvim-dap-ui",
-        dependencies = { "mfussenegger/nvim-dap" }
+        dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio", },
     },
-    { "mfussenegger/nvim-dap-python" },
+    { "jay-babu/mason-nvim-dap.nvim", },
     { "theHamsta/nvim-dap-virtual-text" },
     { "ThePrimeagen/vim-be-good" },
     { 'nvim-telescope/telescope-ui-select.nvim' },
@@ -53,7 +55,6 @@ require("lazy").setup({
     },
     { "nvim-lualine/lualine.nvim" },
     { 'nvim-treesitter/nvim-treesitter-context' },
-    { "Vimjas/vim-python-pep8-indent" },
     { "sbdchd/neoformat" },
     { "mracos/mermaid.vim" },
     { "hrsh7th/cmp-nvim-lua" },
@@ -111,5 +112,10 @@ require("lazy").setup({
         build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release '
             .. '&& cmake --build build --config Release '
             .. '&& cmake --install build --prefix build',
+    },
+    {
+        "windwp/nvim-autopairs",
+        event = "InsertEnter",
+        config = true
     }
 })

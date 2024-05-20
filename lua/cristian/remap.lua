@@ -23,6 +23,7 @@ map("n", "<leader>Y", [["+Y]])
 
 -- Paste from clipboard
 map("n", "<leader>P", [["+p]], { desc = "Paste from clipboard" })
+map("v", "<leader>P", [["+p]], { desc = "Paste from clipboard" })
 
 map({ "n", "v" }, "<leader>d", [["_d]])
 
@@ -35,6 +36,8 @@ map("n", "<leader>fn", ":Neoformat<CR>")
 map("n", "<leader>fl", vim.lsp.buf.format)
 
 map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
+
 
 -- Debugger remaps
 -- local function is_dap_running()

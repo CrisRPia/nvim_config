@@ -1,5 +1,6 @@
 local lsp_zero = require("lsp-zero")
 
+
 require('luasnip.loaders.from_vscode').lazy_load()
 require("neodev").setup({})
 
@@ -28,13 +29,6 @@ lsp_zero.configure("jdtls", {
 })
 
 
-require('mason').setup({})
-require('mason-lspconfig').setup({
-    handlers = {
-        lsp_zero.default_setup,
-    }
-})
-
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
@@ -54,7 +48,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('i', '<C-h>', function() vim.lsp.buf.signature_help() end, opts)
     end,
 })
-
 cmp.setup({
     preselect = 'item',
     experimental = {
@@ -75,6 +68,7 @@ cmp.setup({
     }),
     sources = {
         { name = 'nvim_lua' },
+        { name = 'otter' },
         { name = 'nvim_lsp' },
         { name = 'path' },
         { name = 'luasnip' },
@@ -148,8 +142,15 @@ cmp.setup({
             selection_order = "near_cursor",
         },
         docs = {
-            auto_open = true
+            auto_open = true,
         }
+    }
+})
+
+cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+        { name = 'buffer' }
     }
 })
 

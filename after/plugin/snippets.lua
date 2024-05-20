@@ -1,5 +1,6 @@
 require("luasnip.session.snippet_collection").clear_snippets()
 require("luasnip.loaders.from_vscode").lazy_load()
+
 -- prefix
 local ls = require("luasnip")
 local snippet = ls.snippet
@@ -15,14 +16,14 @@ local events = require("luasnip.util.events")
 local absolute_indexer = require("luasnip.nodes.absolute_indexer")
 local extras = require("luasnip.extras")
 local lambda = extras.lambda
-local rep = extras.rep
+local repeat_node = extras.rep
 local partial = extras.partial
 local match = extras.match
 local nonempty = extras.nonempty
 local dynamic_lambda = extras.dynamic_lambda
 local fmt = require("luasnip.extras.fmt").fmt
 local fmta = require("luasnip.extras.fmt").fmta
-local eonditions = require("luasnip.extras.expand_conditions")
+local conditions = require("luasnip.extras.expand_conditions")
 local postfix = require("luasnip.extras.postfix").postfix
 local types = require("luasnip.util.types")
 local parse_snippet = require("luasnip.util.parser").parse_snippet
@@ -31,7 +32,7 @@ local new_key = require("luasnip.nodes.key_indexer").new_key
 
 -- bindings
 vim.keymap.set({ "i" }, "<C-K>", function() ls.expand() end, { silent = true })
-vim.keymap.set({ "i", "s" }, "<C-L>", function() ls.jump(1) end, { silent = true })
+vim.keymap.set({ "i", "s" }, "<C-K>", function() ls.jump(1) end, { silent = true })
 vim.keymap.set({ "i", "s" }, "<C-J>", function() ls.jump(-1) end, { silent = true })
 
 vim.keymap.set({ "i", "s" }, "<C-E>", function()
@@ -39,14 +40,48 @@ vim.keymap.set({ "i", "s" }, "<C-E>", function()
         ls.change_choice(1)
     end
 end, { silent = true })
--- snippets
-ls.add_snippets("all", {
-    snippet(
-        "{", {
-            -- TODO: Get indentation string dynamically
-            text_node({ "{", "    " }),
-            insert_node(0),
-            text_node({ "", "}" }),
-        }
+
+-- -- snippets
+-- ls.add_snippets("all", {
+--     snippet(
+--         "{", {
+--             text_node({ "{", "    " }),
+--             insert_node(0),
+--             text_node({ "", "}" }),
+--         }
+--     ),
+-- })
+
+ls.add_snippets("python", {
+    snippet("dbg", fmt([[
+        print(f"{{ {n1} = }}")
+    ]], {
+        n1 = insert_node(0),
+    })),
+})
+
+ls.add_snippets("c", {
+    snippet("fori", fmt([[
+        for (int {n1} = 0; {rn1} < {n2}; {rn1}++) {{
+            {n0}
+        }}
+    ]], {
+        n1 = insert_node(1),
+        n2 = insert_node(2),
+        n0 = insert_node(0),
+        rn1 = repeat_node(1),
+    })),
+    snippet("foreach", fmt([[
+            // for {n1} in range 0..len({n2})), non-inclusive
+            for (int {rn1} = 0; {rn1} < sizeof {rn2} / sizeof {rn2}[0]; {rn1}++) {{
+                {n0}
+            }}
+        ]], {
+        n1 = insert_node(1),
+        n2 = insert_node(2),
+        n0 = insert_node(0),
+        rn1 = repeat_node(1),
+        rn2 = repeat_node(2),
+    })
     ),
 })
