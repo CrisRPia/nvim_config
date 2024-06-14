@@ -1,5 +1,16 @@
 local oil = require("oil")
 
+local map = vim.keymap.set
+
+local run_oil_and_show_current_dir = function()
+    oil.open()
+    print(oil.get_url_for_path(nil, true))
+end
+
+map("n", "<leader>pv", run_oil_and_show_current_dir, { desc = "Open parent directory" })
+map("n", "-", run_oil_and_show_current_dir, { desc = "Open parent directory" })
+
+
 oil.setup({
     -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
     -- Set to false if you still want to use netrw.
@@ -51,17 +62,21 @@ oil.setup({
     -- See :help oil-actions for a list of all available actions
     keymaps = {
         ["g?"] = "actions.show_help",
-        ["<CR>"] = "actions.select",
+        ["<CR>"] = function()
+            oil.select(nil, function()
+                print(oil.get_url_for_path(nil, true))
+            end)
+        end,
         ["<C-s>"] = "actions.select_vsplit",
         ["<C-h>"] = "actions.select_split",
         -- ["<C-t>"] = "actions.select_tab",
         ["<C-p>"] = "actions.preview",
         ["<C-c>"] = "actions.close",
         -- ["<C-l>"] = "actions.refresh",
-        ["-"] = "actions.parent",
         -- ["_"] = "actions.open_cwd",
         -- ["`"] = "actions.cd",
         -- ["~"] = "actions.tcd",
+        ["-"] = run_oil_and_show_current_dir,
         ["gs"] = "actions.change_sort",
         -- ["gx"] = "actions.open_external",
         ["g."] = "actions.toggle_hidden",

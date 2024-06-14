@@ -17,7 +17,7 @@ require("lazy").setup({
         branch = 'v3.x',
         dependencies = {
             -- LSP Support
-            { 'neovim/nvim-lspconfig' },
+            { 'neovim/nvim-lspconfig', },
             { 'williamboman/mason.nvim' },
             { 'williamboman/mason-lspconfig.nvim' },
             { 'jmbuhr/otter.nvim' },
@@ -26,6 +26,7 @@ require("lazy").setup({
             { 'hrsh7th/nvim-cmp' },
             { 'hrsh7th/cmp-buffer' },
             { 'hrsh7th/cmp-path' },
+            { 'hrsh7th/cmp-cmdline' },
             { 'saadparwaiz1/cmp_luasnip' },
             { 'hrsh7th/cmp-nvim-lsp' },
             { 'hrsh7th/cmp-nvim-lua' },
@@ -100,13 +101,13 @@ require("lazy").setup({
     },
     { "romainl/vim-cool" },
     { "mfussenegger/nvim-jdtls" },
-    {
-        "numToStr/Comment.nvim",
-        opts = {
-            -- add any options here
-        },
-        lazy = false,
-    },
+    -- {
+    --     "numToStr/Comment.nvim",
+    --     opts = {
+    --         -- add any options here
+    --     },
+    --     lazy = false,
+    -- },
     {
         'nvim-telescope/telescope-fzf-native.nvim',
         build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release '
@@ -117,5 +118,6 @@ require("lazy").setup({
         "windwp/nvim-autopairs",
         event = "InsertEnter",
         config = true
-    }
+    },
+    { "lewis6991/gitsigns.nvim" },
 })

@@ -1,3 +1,4 @@
+---@diagnostic disable: unused-local
 require("luasnip.session.snippet_collection").clear_snippets()
 require("luasnip.loaders.from_vscode").lazy_load()
 
@@ -54,9 +55,9 @@ end, { silent = true })
 
 ls.add_snippets("python", {
     snippet("dbg", fmt([[
-        print(f"{{ {n1} = }}")
+        print(f"{{{n1} = }}")
     ]], {
-        n1 = insert_node(0),
+        n1 = insert_node(0, "val"),
     })),
 })
 
@@ -66,22 +67,48 @@ ls.add_snippets("c", {
             {n0}
         }}
     ]], {
-        n1 = insert_node(1),
-        n2 = insert_node(2),
+        n1 = insert_node(1, "i"),
+        n2 = insert_node(2, "length"),
         n0 = insert_node(0),
         rn1 = repeat_node(1),
     })),
     snippet("foreach", fmt([[
-            // for {n1} in range 0..len({n2})), non-inclusive
-            for (int {rn1} = 0; {rn1} < sizeof {rn2} / sizeof {rn2}[0]; {rn1}++) {{
+            // for {n1} in range 0..<len({n2}))
+            for (int {rn1} = 0; {rn1} < sizeof({rn2}) / sizeof({rn2}[0]); {rn1}++) {{
                 {n0}
             }}
         ]], {
-        n1 = insert_node(1),
-        n2 = insert_node(2),
+        n1 = insert_node(1, "i"),
+        n2 = insert_node(2, "arr"),
         n0 = insert_node(0),
         rn1 = repeat_node(1),
         rn2 = repeat_node(2),
-    })
-    ),
+    })),
+    snippet("sizearr", fmt([[
+        sizeof({n1}) / sizeof({rn1}[0])
+    ]], {
+        n1 = insert_node(1, "arr"),
+        rn1 = repeat_node(1),
+    })),
+    snippet("start", fmt([[
+        #include <stdbool.h>
+        #include <stdio.h>
+        #include <stdlib.h>
+
+
+        #define dbg(format, x)                                                         \
+            printf("[%s:%s:%d]: " #x " = " format "\n", __FILE__, __func__, __LINE__, x)
+
+        int main({cn}) {{
+            {i0}
+            return EXIT_SUCCESS;
+        }}
+
+    ]], {
+        cn = choice_node(1, {
+            text_node("void"),
+            text_node("int argc, char* argv[]"),
+        }),
+        i0 = insert_node(0),
+    }))
 })

@@ -2,9 +2,6 @@ local map = vim.keymap.set
 
 vim.g.mapleader = " "
 
-map("n", "<leader>pv", "<CMD>Oil<CR>")
-map("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
-
 map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
 
@@ -36,16 +33,18 @@ map("n", "<leader>fn", ":Neoformat<CR>")
 map("n", "<leader>fl", vim.lsp.buf.format)
 
 map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-
-
+map("n", "<leader>ih", function()
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
+    print("Inlay hint set to " .. tostring(vim.lsp.inlay_hint.is_enabled({})))
+end)
 
 -- Debugger remaps
 -- local function is_dap_running()
 --     local session = require('dap').session()
 --     return session ~= nil
 -- end
--- 
--- 
+--
+--
 -- map("n", "<F6>", function()
 --     if vim.bo.filetype == "cs" and not is_dap_running() then
 --         Find_dlls(Launch_dapui)

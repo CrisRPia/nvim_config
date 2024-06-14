@@ -10,7 +10,7 @@ vim.diagnostic.config({
     float = {
         style = 'minimal',
         border = 'rounded',
-        source = 'always',
+        source = true,
         -- header = '',
         -- prefix = '',
     },
@@ -62,7 +62,7 @@ cmp.setup({
         ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
         ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
         ['<Enter>'] = cmp.mapping.confirm({ select = true }),
-        ["<C-E>"] = cmp.mapping.complete(),
+        -- ["<C-E>"] = cmp.mapping.complete(),
         ['<Tab>'] = nil,
         ['<S-Tab>'] = nil,
     }),
@@ -72,7 +72,7 @@ cmp.setup({
         { name = 'nvim_lsp' },
         { name = 'path' },
         { name = 'luasnip' },
-        { name = 'buffer',  keyword_length = 5 },
+        { name = 'buffer' },
     },
     snippet = {
         expand = function(args)
@@ -144,13 +144,32 @@ cmp.setup({
         docs = {
             auto_open = true,
         }
-    }
+    },
 })
 
 cmp.setup.cmdline({ '/', '?' }, {
     mapping = cmp.mapping.preset.cmdline(),
     sources = {
         { name = 'buffer' }
+    }
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+        { name = 'path' }
+    }, {
+        {
+            name = 'cmdline',
+            option = {
+                ignore_cmds = { 'Man', '!' }
+            }
+        }
+    }),
+    ---@diagnostic disable-next-line: missing-fields
+    matching = {
+        disallow_symbol_nonprefix_matching = false,
     }
 })
 
@@ -161,13 +180,28 @@ lsp_zero.set_sign_icons({
     info = ' '
 })
 
-lsp_zero.setup()
-
 local lspconfig = require("lspconfig")
-lspconfig.powershell_es.setup {
+
+lspconfig.powershell_es.setup({
     bundle_path = '~/Desktop/PowerShellEditorServices',
-    settings = { powershell = { codeFormatting = { Preset = 'OTBS' } } },
-}
+    settings = {
+        powershell = {
+            codeFormatting = {
+                Preset = 'OTBS'
+            }
+        }
+    },
+})
+
+lspconfig.lua_ls.setup({
+    settings = {
+        Lua = {
+            hint = {
+                enable = true,
+            }
+        }
+    }
+})
 
 vim.diagnostic.config({
     virtual_text = true
