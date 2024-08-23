@@ -28,8 +28,16 @@ map({ "n", "v" }, "<leader>d", [["_d]])
 map("i", "<C-c>", "<Esc>")
 
 map("n", "Q", "<nop>")
--- map("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
-map("n", "<leader>fn", ":Neoformat<CR>")
+map("n", "<C-f>", "<cmd>silent !tmux new tmux-sessionizer<CR>")
+map("n", "<leader>fn", function ()
+    if vim.bo.filetype == "cs" then
+        vim.cmd([[Neoformat csharpier]])
+    elseif vim.bo.filetype == "python" then
+        vim.cmd([[Neoformat black]])
+    else
+        vim.cmd([[Neoformat]])
+    end
+end)
 map("n", "<leader>fl", vim.lsp.buf.format)
 
 map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
@@ -60,25 +68,25 @@ end)
 -- map("n", "<leader>blp", ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
 -- map("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>")
 
+-- Kitty
+map("n", "<leader>s.", function()
+    local parent_dir = vim.fn.expand("%:p:h")
+    local command = "kitty --working-directory " .. parent_dir .. " &"
+    print("Executing: " .. command)
+    vim.fn.system(command)
+end)
+
+map("n", "<leader>sr", function()
+    local root_dir = vim.loop.cwd()
+    local command = "kitty --working-directory " .. root_dir .. " &"
+    print("Executing: " .. command)
+    vim.fn.system(command)
+end)
 
 -- Trouble
 map("n", "<leader>tt", "<cmd>TroubleToggle<cr>",
     { silent = true, noremap = true }
 )
-
-
--- tmux
-function Split_tmux_vertical()
-    -- REQUIRES PUEUED FOR CROSS-SHELL COMPATIBILITY
-    vim.fn.system("pueued -d")
-    local cmd = string.format(
-        "pueue add alacritty --working-directory '%s'",
-        vim.fn.expand('%:p:h')
-    )
-    vim.fn.system(cmd)
-end
-
-map("n", "<leader>tp", Split_tmux_vertical)
 
 -- Copilot
 vim.g.copilot_no_tab_map = true

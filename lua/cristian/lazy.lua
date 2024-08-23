@@ -14,14 +14,12 @@ require("lazy").setup({
     { "tpope/vim-fugitive" },
     {
         'VonHeikemen/lsp-zero.nvim',
-        branch = 'v3.x',
+        branch = 'v4.x',
         dependencies = {
             -- LSP Support
             { 'neovim/nvim-lspconfig', },
             { 'williamboman/mason.nvim' },
             { 'williamboman/mason-lspconfig.nvim' },
-            { 'jmbuhr/otter.nvim' },
-
             -- Autocompletion
             { 'hrsh7th/nvim-cmp' },
             { 'hrsh7th/cmp-buffer' },

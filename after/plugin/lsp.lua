@@ -22,10 +22,20 @@ lsp_zero.on_attach(function(_ --[[ client ]], bufnr)
     lsp_zero.default_keymaps({ buffer = bufnr })
 end)
 
+lsp_zero.extend_lspconfig({
+    capabilities = require('cmp_nvim_lsp').default_capabilities(),
+    lsp_attach = function(_, bufnr)
+        lsp_zero.default_keymaps({ buffer = bufnr })
+    end,
+    float_border = 'rounded',
+    sign_text = true,
+})
+
 lsp_zero.configure("jdtls", {
     -- FIXME: This is a workaround to prevent lsp_zero from using
-    -- jdtls, since I wanna config it myself.
-    cmd = ""
+    -- jdtls, since I wanna config it myself. This is the reason of the
+    -- annoying 2-line popup on startup.
+    cmd = { "" }
 })
 
 
@@ -68,7 +78,6 @@ cmp.setup({
     }),
     sources = {
         { name = 'nvim_lua' },
-        { name = 'otter' },
         { name = 'nvim_lsp' },
         { name = 'path' },
         { name = 'luasnip' },
@@ -132,6 +141,22 @@ cmp.setup({
         fields = { "kind", "abbr", "menu" },
         format = function(_, vim_item)
             vim_item.kind = cmp_kinds[vim_item.kind] .. vim_item.kind
+            local menu_length = 0
+
+            if vim_item.menu then
+                menu_length = #vim_item.menu
+            end
+
+            if #vim_item.abbr + menu_length < 120 then
+                return vim_item
+            end
+
+            if #vim_item.abbr > 40 then
+                vim_item.abbr = string.sub(vim_item.abbr, 1, 40) .. '...'
+            end
+            if menu_length > 80 then
+                vim_item.menu = string.sub(vim_item.menu, 1, 80) .. '...'
+            end
             return vim_item
         end,
         expandable_indicator = true,
@@ -202,6 +227,9 @@ lspconfig.lua_ls.setup({
         }
     }
 })
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 vim.diagnostic.config({
     virtual_text = true
