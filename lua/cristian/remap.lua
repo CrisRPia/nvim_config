@@ -30,10 +30,13 @@ map("i", "<C-c>", "<Esc>")
 map("n", "Q", "<nop>")
 map("n", "<C-f>", "<cmd>silent !tmux new tmux-sessionizer<CR>")
 map("n", "<leader>fn", function ()
-    if vim.bo.filetype == "cs" then
+    local filetype = vim.bo.filetype
+    if filetype == "cs" then
         vim.cmd([[Neoformat csharpier]])
-    elseif vim.bo.filetype == "python" then
+    elseif filetype == "python" then
         vim.cmd([[Neoformat black]])
+    elseif filetype == "sql" or filetype == "mysql" or filetype == "plsql" then
+        vim.cmd([[ Neoformat sleek ]])
     else
         vim.cmd([[Neoformat]])
     end
@@ -84,9 +87,9 @@ map("n", "<leader>sr", function()
 end)
 
 -- Trouble
-map("n", "<leader>tt", "<cmd>TroubleToggle<cr>",
-    { silent = true, noremap = true }
-)
+-- map("n", "<leader>tt", "<cmd>TroubleToggle<cr>",
+--     { silent = true, noremap = true }
+-- )
 
 -- Copilot
 vim.g.copilot_no_tab_map = true
@@ -98,3 +101,8 @@ map("n", '<C-h>', '<C-w>h')
 map("n", '<C-j>', '<C-w>j')
 map("n", '<C-k>', '<C-w>k')
 map("n", '<C-l>', '<C-w>l')
+
+-- Tabs
+
+map("n", "tt", function () vim.cmd([[ tabnew ]]) end)
+map("n", "tT", function () vim.cmd([[ tabclose ]]) end)
