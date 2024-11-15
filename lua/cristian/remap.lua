@@ -29,17 +29,37 @@ map("i", "<C-c>", "<Esc>")
 
 map("n", "Q", "<nop>")
 map("n", "<C-f>", "<cmd>silent !tmux new tmux-sessionizer<CR>")
-map("n", "<leader>fn", function ()
+map("n", "<leader>fn", function()
+    ---@type { filetypes: string[], formatter: string }[]
+    local filetype2Formatter = {
+        {
+            filetypes = { "cs" },
+            formatter = "csharpier",
+        },
+        {
+            filetypes = { "python" },
+            formatter = "black",
+        },
+        {
+            filetypes = { "sql", "mysql", "plsql" },
+            formatter = "sleek",
+        },
+        {
+            filetypes = { "javascript", "typescript" },
+            formatter = "prettierd",
+        }
+    }
+
     local filetype = vim.bo.filetype
-    if filetype == "cs" then
-        vim.cmd([[Neoformat csharpier]])
-    elseif filetype == "python" then
-        vim.cmd([[Neoformat black]])
-    elseif filetype == "sql" or filetype == "mysql" or filetype == "plsql" then
-        vim.cmd([[ Neoformat sleek ]])
-    else
-        vim.cmd([[Neoformat]])
+
+    for _, config in ipairs(filetype2Formatter) do
+        if vim.tbl_contains(config.filetypes, filetype) then
+            vim.cmd("Neoformat " .. config.formatter)
+            return
+        end
     end
+
+    vim.cmd([[Neoformat]])
 end)
 map("n", "<leader>fl", vim.lsp.buf.format)
 
@@ -104,5 +124,14 @@ map("n", '<C-l>', '<C-w>l')
 
 -- Tabs
 
-map("n", "tt", function () vim.cmd([[ tabnew ]]) end)
-map("n", "tT", function () vim.cmd([[ tabclose ]]) end)
+map("n", "tt", function() vim.cmd([[ tabnew ]]) end)
+map("n", "tT", function() vim.cmd([[ tabclose ]]) end)
+
+-- Wrap
+map("n", "<leader>ww", function()
+    vim.opt.wrap = not vim.opt.wrap:get()
+    if type(vim.opt.wrap) == "table" then
+        ---@diagnostic disable-next-line: param-type-mismatch
+        print("Wrap set to " .. tostring(vim.opt.wrap:get()))
+    end
+end)

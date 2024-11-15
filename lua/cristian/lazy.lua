@@ -135,5 +135,16 @@ require("lazy").setup({
             -- Your DBUI configuration
             vim.g.db_ui_use_nerd_fonts = 1
         end,
-    }
+    },
+    { 'dmmulroy/tsc.nvim' },
+    -- TODO: Prevent tailwind plugin from crashing.
+    -- {
+    --     "luckasRanarison/tailwind-tools.nvim",
+    -- --     -- build = ":UpdateRemotePlugins",
+    -- --     dependencies = {
+    -- --         "nvim-treesitter/nvim-treesitter",
+    -- --     },
+    --     opts = require("after.plugin.tailwind")
+    -- }
+    { "windwp/nvim-ts-autotag" },
 })

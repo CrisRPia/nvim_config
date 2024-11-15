@@ -61,6 +61,43 @@ ls.add_snippets("python", {
     })),
 })
 
+ls.add_snippets("javascript", {
+    snippet("type", fmt([[
+        /** @type {{{n1}}} */
+    ]], {
+        n1 = insert_node(0, "val"),
+    }))
+})
+
+ls.add_snippets("typescript", {
+    snippet("fastifyTypeboxPlugin", fmt([[
+        import {{ FastifyPluginAsyncTypebox }} from "@fastify/type-provider-typebox";
+
+        export default (async (fastify) => {{
+            {n0}
+        }}) satisfies FastifyPluginAsyncTypebox;
+    ]], {
+        n0 = insert_node(0, "routes"),
+    })),
+    snippet("melodleRoute", fmt([[
+        fastify.{n1}("", {{
+            onRequest: [],
+            schema: {{
+                response: {{
+                    200: SafeType.Literal("TODO!"),
+                    ...SafeType.CreateErrors([]),
+                }},
+                summary: "TODO!",
+                description: undefined,
+                tags: ["TODO Schema"] satisfies MelodleTagName[],
+            }},
+            async handler(_request, reply) {{
+                return reply.notImplemented();
+            }}
+        }});
+    ]], {n1 = insert_node(0, "get")}))
+})
+
 ls.add_snippets("c", {
     snippet("fori", fmt([[
         for (int {n1} = 0; {rn1} < {n2}; {rn1}++) {{
@@ -111,4 +148,17 @@ ls.add_snippets("c", {
         }),
         i0 = insert_node(0),
     }))
+})
+
+ls.add_snippets("html", {
+    snippet("forng", fmt([[
+        @for ({n1} of {n2}; track {nitem}) {{
+            {n0}
+        }}
+    ]], {
+            n0 = insert_node(0),
+            n1 = insert_node(1),
+            n2 = insert_node(2),
+            nitem = repeat_node(1),
+        }))
 })
