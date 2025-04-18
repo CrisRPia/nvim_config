@@ -32,9 +32,15 @@ local multi_snippet = ls.multi_snippet
 local new_key = require("luasnip.nodes.key_indexer").new_key
 
 -- bindings
-vim.keymap.set({ "i" }, "<C-K>", function() ls.expand() end, { silent = true })
-vim.keymap.set({ "i", "s" }, "<C-K>", function() ls.jump(1) end, { silent = true })
-vim.keymap.set({ "i", "s" }, "<C-J>", function() ls.jump(-1) end, { silent = true })
+vim.keymap.set({ "i" }, "<C-K>", function()
+    ls.expand()
+end, { silent = true })
+vim.keymap.set({ "i", "s" }, "<C-K>", function()
+    ls.jump(1)
+end, { silent = true })
+vim.keymap.set({ "i", "s" }, "<C-J>", function()
+    ls.jump(-1)
+end, { silent = true })
 
 vim.keymap.set({ "i", "s" }, "<C-E>", function()
     if ls.choice_active() then
@@ -54,32 +60,53 @@ end, { silent = true })
 -- })
 
 ls.add_snippets("python", {
-    snippet("dbg", fmt([[
+    snippet(
+        "dbg",
+        fmt(
+            [[
         print(f"{{{n1} = }}")
-    ]], {
-        n1 = insert_node(0, "val"),
-    })),
+    ]],
+            {
+                n1 = insert_node(0, "val"),
+            }
+        )
+    ),
 })
 
 ls.add_snippets("javascript", {
-    snippet("type", fmt([[
+    snippet(
+        "type",
+        fmt(
+            [[
         /** @type {{{n1}}} */
-    ]], {
-        n1 = insert_node(0, "val"),
-    }))
+    ]],
+            {
+                n1 = insert_node(0, "val"),
+            }
+        )
+    ),
 })
 
 ls.add_snippets("typescript", {
-    snippet("fastifyTypeboxPlugin", fmt([[
+    snippet(
+        "fastifyTypeboxPlugin",
+        fmt(
+            [[
         import {{ FastifyPluginAsyncTypebox }} from "@fastify/type-provider-typebox";
 
         export default (async (fastify) => {{
             {n0}
         }}) satisfies FastifyPluginAsyncTypebox;
-    ]], {
-        n0 = insert_node(0, "routes"),
-    })),
-    snippet("melodleRoute", fmt([[
+    ]],
+            {
+                n0 = insert_node(0, "routes"),
+            }
+        )
+    ),
+    snippet(
+        "melodleRoute",
+        fmt(
+            [[
         fastify.{n1}("", {{
             onRequest: [],
             schema: {{
@@ -95,39 +122,63 @@ ls.add_snippets("typescript", {
                 return reply.notImplemented();
             }}
         }});
-    ]], {n1 = insert_node(0, "get")}))
+    ]],
+            { n1 = insert_node(0, "get") }
+        )
+    ),
 })
 
 ls.add_snippets("c", {
-    snippet("fori", fmt([[
+    snippet(
+        "fori",
+        fmt(
+            [[
         for (int {n1} = 0; {rn1} < {n2}; {rn1}++) {{
             {n0}
         }}
-    ]], {
-        n1 = insert_node(1, "i"),
-        n2 = insert_node(2, "length"),
-        n0 = insert_node(0),
-        rn1 = repeat_node(1),
-    })),
-    snippet("foreach", fmt([[
+    ]],
+            {
+                n1 = insert_node(1, "i"),
+                n2 = insert_node(2, "length"),
+                n0 = insert_node(0),
+                rn1 = repeat_node(1),
+            }
+        )
+    ),
+    snippet(
+        "foreach",
+        fmt(
+            [[
             // for {n1} in range 0..<len({n2}))
             for (int {rn1} = 0; {rn1} < sizeof({rn2}) / sizeof({rn2}[0]); {rn1}++) {{
                 {n0}
             }}
-        ]], {
-        n1 = insert_node(1, "i"),
-        n2 = insert_node(2, "arr"),
-        n0 = insert_node(0),
-        rn1 = repeat_node(1),
-        rn2 = repeat_node(2),
-    })),
-    snippet("sizearr", fmt([[
+        ]],
+            {
+                n1 = insert_node(1, "i"),
+                n2 = insert_node(2, "arr"),
+                n0 = insert_node(0),
+                rn1 = repeat_node(1),
+                rn2 = repeat_node(2),
+            }
+        )
+    ),
+    snippet(
+        "sizearr",
+        fmt(
+            [[
         sizeof({n1}) / sizeof({rn1}[0])
-    ]], {
-        n1 = insert_node(1, "arr"),
-        rn1 = repeat_node(1),
-    })),
-    snippet("start", fmt([[
+    ]],
+            {
+                n1 = insert_node(1, "arr"),
+                rn1 = repeat_node(1),
+            }
+        )
+    ),
+    snippet(
+        "start",
+        fmt(
+            [[
         #include <stdbool.h>
         #include <stdio.h>
         #include <stdlib.h>
@@ -141,24 +192,33 @@ ls.add_snippets("c", {
             return EXIT_SUCCESS;
         }}
 
-    ]], {
-        cn = choice_node(1, {
-            text_node("void"),
-            text_node("int argc, char* argv[]"),
-        }),
-        i0 = insert_node(0),
-    }))
+    ]],
+            {
+                cn = choice_node(1, {
+                    text_node("void"),
+                    text_node("int argc, char* argv[]"),
+                }),
+                i0 = insert_node(0),
+            }
+        )
+    ),
 })
 
 ls.add_snippets("html", {
-    snippet("forng", fmt([[
+    snippet(
+        "forng",
+        fmt(
+            [[
         @for ({n1} of {n2}; track {nitem}) {{
             {n0}
         }}
-    ]], {
-            n0 = insert_node(0),
-            n1 = insert_node(1),
-            n2 = insert_node(2),
-            nitem = repeat_node(1),
-        }))
+    ]],
+            {
+                n0 = insert_node(0),
+                n1 = insert_node(1),
+                n2 = insert_node(2),
+                nitem = repeat_node(1),
+            }
+        )
+    ),
 })

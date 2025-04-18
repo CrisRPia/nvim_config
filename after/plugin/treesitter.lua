@@ -1,5 +1,5 @@
 ---@diagnostic disable-next-line: missing-fields
-require('nvim-treesitter.configs').setup({
+require("nvim-treesitter.configs").setup({
     -- A list of parser names, or "all"
     ensure_installed = {},
 
@@ -17,6 +17,12 @@ require('nvim-treesitter.configs').setup({
     highlight = {
         -- `false` will disable the whole extension
         enable = true,
+        disable = function(lang, buf)
+            local max_filesize = 100 * 1024
+            local ok, stats =
+                pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+            return ok and stats ~= nil and stats.size > max_filesize
+        end,
 
         -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
         -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
@@ -28,7 +34,7 @@ require('nvim-treesitter.configs').setup({
     incremental_selection = {
         enable = true,
         keymaps = {
-            node_incremental = 'v',
+            node_incremental = "v",
         },
     },
 })

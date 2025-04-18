@@ -38,22 +38,20 @@ opt.laststatus = 3
 opt.splitright = true
 
 -- Configure whitespaces
-local space = "·"
 opt.listchars = {
     tab = ">─",
-    space = space,
-    lead = ' ',
-    trail = space,
-    nbsp = space
+    space = "·",
+    lead = " ",
+    trail = "·",
+    nbsp = "·",
 }
 
 opt.list = true
-
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
     desc = "Highlight when yanking text",
     group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
-    callback = function ()
-       vim.highlight.on_yank()
-    end
+    callback = function()
+        vim.highlight.on_yank()
+    end,
 })

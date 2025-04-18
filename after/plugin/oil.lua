@@ -7,9 +7,13 @@ local run_oil_and_show_current_dir = function()
     print(oil.get_url_for_path(nil, true))
 end
 
-map("n", "<leader>pv", run_oil_and_show_current_dir, { desc = "Open parent directory" })
+map(
+    "n",
+    "<leader>pv",
+    run_oil_and_show_current_dir,
+    { desc = "Open parent directory" }
+)
 map("n", "-", run_oil_and_show_current_dir, { desc = "Open parent directory" })
-
 
 oil.setup({
     -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
@@ -92,11 +96,11 @@ oil.setup({
         -- Show files and directories that start with "."
         show_hidden = true,
         -- This function defines what is considered a "hidden" file
-        is_hidden_file = function(name, bufnr)
+        is_hidden_file = function(name, _)
             return vim.startswith(name, ".")
         end,
         -- This function defines what will never be shown, even when `show_hidden` is set
-        is_always_hidden = function(name, bufnr)
+        is_always_hidden = function(_, _)
             return false
         end,
         sort = {

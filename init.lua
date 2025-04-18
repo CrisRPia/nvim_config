@@ -1,5 +1,5 @@
 -- FIXME: This is a hotfix, setting it to 1 triggers a "press enter to continue"
--- prompt on opening nvim. 
+-- prompt on opening nvim.
 vim.cmd([[ set cmdheight=2 ]])
 
 -- lazy installation

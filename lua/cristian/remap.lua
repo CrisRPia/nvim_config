@@ -47,7 +47,7 @@ map("n", "<leader>fn", function()
         {
             filetypes = { "javascript", "typescript" },
             formatter = "prettierd",
-        }
+        },
     }
 
     local filetype = vim.bo.filetype
@@ -69,28 +69,6 @@ map("n", "<leader>ih", function()
     print("Inlay hint set to " .. tostring(vim.lsp.inlay_hint.is_enabled({})))
 end)
 
--- Debugger remaps
--- local function is_dap_running()
---     local session = require('dap').session()
---     return session ~= nil
--- end
---
---
--- map("n", "<F6>", function()
---     if vim.bo.filetype == "cs" and not is_dap_running() then
---         Find_dlls(Launch_dapui)
---     else
---         require('dap').continue()
---     end
--- end)
--- map("n", "<F7>", ":lua require'dap'.step_over()<CR>")
--- map("n", "<F8>", ":lua require'dap'.step_into()<CR>")
--- map("n", "<F9>", ":lua require'dap'.step_out()<CR>")
--- map("n", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>")
--- map("n", "<leader>B", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
--- map("n", "<leader>blp", ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
--- map("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>")
-
 -- Kitty
 map("n", "<leader>s.", function()
     local parent_dir = vim.fn.expand("%:p:h")
@@ -106,26 +84,11 @@ map("n", "<leader>sr", function()
     vim.fn.system(command)
 end)
 
--- Trouble
--- map("n", "<leader>tt", "<cmd>TroubleToggle<cr>",
---     { silent = true, noremap = true }
--- )
-
--- Copilot
-vim.g.copilot_no_tab_map = true
-
-vim.api.nvim_set_keymap("i", "<C-Q>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
-
 -- Window switching
-map("n", '<C-h>', '<C-w>h')
-map("n", '<C-j>', '<C-w>j')
-map("n", '<C-k>', '<C-w>k')
-map("n", '<C-l>', '<C-w>l')
-
--- Tabs
-
-map("n", "tt", function() vim.cmd([[ tabnew ]]) end)
-map("n", "tT", function() vim.cmd([[ tabclose ]]) end)
+map("n", "<C-h>", "<C-w>h")
+map("n", "<C-j>", "<C-w>j")
+map("n", "<C-k>", "<C-w>k")
+map("n", "<C-l>", "<C-w>l")
 
 -- Wrap
 map("n", "<leader>ww", function()
@@ -135,3 +98,7 @@ map("n", "<leader>ww", function()
         print("Wrap set to " .. tostring(vim.opt.wrap:get()))
     end
 end)
+
+-- Visual mode indentation remaps
+map("v", ">", ">gv", { desc = "Indent right and keep selection" })
+map("v", "<", "<gv", { desc = "Indent left and keep selection" })
