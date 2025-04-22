@@ -38,7 +38,7 @@ map("n", "<leader>fn", function()
         },
         {
             filetypes = { "python" },
-            formatter = "black",
+            formatter = "ruff",
         },
         {
             filetypes = { "sql", "mysql", "plsql" },

@@ -12,29 +12,10 @@ require("lazy").setup({
     },
     { "mbbill/undotree" },
     { "tpope/vim-fugitive" },
-    {
-        "VonHeikemen/lsp-zero.nvim",
-        branch = "v4.x",
-        dependencies = {
-            -- LSP Support
-            { "neovim/nvim-lspconfig" },
-            { "williamboman/mason.nvim" },
-            { "williamboman/mason-lspconfig.nvim" },
-            -- Autocompletion
-            { "hrsh7th/nvim-cmp" },
-            { "hrsh7th/cmp-buffer" },
-            { "hrsh7th/cmp-path" },
-            { "hrsh7th/cmp-cmdline" },
-            { "saadparwaiz1/cmp_luasnip" },
-            { "hrsh7th/cmp-nvim-lsp" },
-            { "hrsh7th/cmp-nvim-lua" },
-            { "dmitmel/cmp-digraphs" },
-
-            -- Snippets
-            { "L3MON4D3/LuaSnip" },
-            { "rafamadriz/friendly-snippets" },
-        },
-    },
+    { "neovim/nvim-lspconfig" },
+    { "williamboman/mason.nvim" },
+    { "williamboman/mason-lspconfig.nvim" },
+    { "L3MON4D3/LuaSnip" },
     { "nvim-telescope/telescope-project.nvim" },
     { "mfussenegger/nvim-dap" },
     {
@@ -56,7 +37,6 @@ require("lazy").setup({
     { "nvim-treesitter/nvim-treesitter-context" },
     { "sbdchd/neoformat" },
     { "mracos/mermaid.vim" },
-    { "hrsh7th/cmp-nvim-lua" },
     { "NvChad/nvim-colorizer.lua" },
     {
         "stevearc/oil.nvim",
@@ -68,10 +48,6 @@ require("lazy").setup({
     {
         "rose-pine/neovim",
         name = "rose-pine",
-    },
-    {
-        "folke/neodev.nvim",
-        opts = {},
     },
     { "HiPhish/rainbow-delimiters.nvim" },
     {
@@ -118,53 +94,29 @@ require("lazy").setup({
         config = true,
     },
     { "lewis6991/gitsigns.nvim" },
-    { "tpope/vim-dadbod" },
-    {
-        "kristijanhusak/vim-dadbod-ui",
-        dependencies = {
-            { "tpope/vim-dadbod", lazy = true },
-            {
-                "kristijanhusak/vim-dadbod-completion",
-                ft = { "sql", "mysql", "plsql" },
-                lazy = true,
-            }, -- Optional
-        },
-        cmd = {
-            "DBUI",
-            "DBUIToggle",
-            "DBUIAddConnection",
-            "DBUIFindBuffer",
-        },
-        init = function()
-            -- Your DBUI configuration
-            vim.g.db_ui_use_nerd_fonts = 1
-        end,
-    },
     { "dmmulroy/tsc.nvim" },
-    -- TODO: Prevent tailwind plugin from crashing.
-    -- {
-    --     "luckasRanarison/tailwind-tools.nvim",
-    -- --     -- build = ":UpdateRemotePlugins",
-    -- --     dependencies = {
-    -- --         "nvim-treesitter/nvim-treesitter",
-    -- --     },
-    --     opts = require("after.plugin.tailwind")
-    -- }
     { "windwp/nvim-ts-autotag" },
     { "nvim-java/nvim-java" },
     { "nat-418/boole.nvim" },
     {
         "saghen/blink.cmp",
-        -- optional: provides snippets for the snippet source
-        dependencies = "rafamadriz/friendly-snippets",
-
-        -- use a release tag to download pre-built binaries
+        dependencies = {
+            "rafamadriz/friendly-snippets",
+            "mikavilpas/blink-ripgrep.nvim",
+        },
         version = "*",
-        -- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-        -- build = 'cargo build --release',
-        -- If you use nix, you can build from source using latest nightly rust with:
-        -- build = 'nix run .#build-plugin',
     },
     { "karb94/neoscroll.nvim" },
     { "Apeiros-46B/qalc.nvim" },
+    {
+        "folke/lazydev.nvim",
+        ft = "lua", -- only load on lua files
+        opts = {
+            library = {
+                -- See the configuration section for more details
+                -- Load luvit types when the `vim.uv` word is found
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+            },
+        },
+    },
 })
