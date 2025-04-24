@@ -11,7 +11,6 @@ require("lazy").setup({
         dependencies = { "nvim-lua/plenary.nvim" },
     },
     { "mbbill/undotree" },
-    { "tpope/vim-fugitive" },
     { "neovim/nvim-lspconfig" },
     { "williamboman/mason.nvim" },
     { "williamboman/mason-lspconfig.nvim" },
@@ -23,8 +22,6 @@ require("lazy").setup({
         dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
     },
     { "jay-babu/mason-nvim-dap.nvim" },
-    { "theHamsta/nvim-dap-virtual-text" },
-    { "ThePrimeagen/vim-be-good" },
     { "nvim-telescope/telescope-ui-select.nvim" },
     {
         "folke/trouble.nvim",
@@ -37,7 +34,7 @@ require("lazy").setup({
     { "nvim-treesitter/nvim-treesitter-context" },
     { "sbdchd/neoformat" },
     { "mracos/mermaid.vim" },
-    { "NvChad/nvim-colorizer.lua" },
+    -- { "NvChad/nvim-colorizer.lua" },
     {
         "stevearc/oil.nvim",
         config = function()
@@ -48,6 +45,9 @@ require("lazy").setup({
     {
         "rose-pine/neovim",
         name = "rose-pine",
+        config = function()
+            vim.cmd("colorscheme rose-pine")
+        end,
     },
     { "HiPhish/rainbow-delimiters.nvim" },
     {
@@ -75,13 +75,6 @@ require("lazy").setup({
     },
     { "romainl/vim-cool" },
     { "mfussenegger/nvim-jdtls" },
-    -- {
-    --     "numToStr/Comment.nvim",
-    --     opts = {
-    --         -- add any options here
-    --     },
-    --     lazy = false,
-    -- },
     {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release "
@@ -107,7 +100,6 @@ require("lazy").setup({
         version = "*",
     },
     { "karb94/neoscroll.nvim" },
-    { "Apeiros-46B/qalc.nvim" },
     {
         "folke/lazydev.nvim",
         ft = "lua", -- only load on lua files
@@ -119,4 +111,11 @@ require("lazy").setup({
             },
         },
     },
+    {
+        "chomosuke/typst-preview.nvim",
+        lazy = false, -- or ft = 'typst'
+        version = "1.*",
+        opts = {}, -- lazy.nvim will implicitly calls `setup {}`
+    },
+    { "brenoprata10/nvim-highlight-colors" },
 })

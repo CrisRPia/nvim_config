@@ -63,7 +63,7 @@ map("n", "<leader>fn", function()
 end)
 map("n", "<leader>fl", vim.lsp.buf.format)
 
-map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+map("n", "<leader>wr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 map("n", "<leader>ih", function()
     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
     print("Inlay hint set to " .. tostring(vim.lsp.inlay_hint.is_enabled({})))
@@ -78,7 +78,7 @@ map("n", "<leader>s.", function()
 end)
 
 map("n", "<leader>sr", function()
-    local root_dir = vim.loop.cwd()
+    local root_dir = vim.uv.cwd()
     local command = "kitty --working-directory " .. root_dir .. " &"
     print("Executing: " .. command)
     vim.fn.system(command)
