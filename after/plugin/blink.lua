@@ -74,7 +74,13 @@ blink.setup({
     -- default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
-        default = { "lazydev", "lsp", "path", "snippets", "buffer" }, -- "ripgrep" },
+        default = {
+            "lazydev",
+            "lsp",
+            "path",
+            "snippets",
+            "buffer",
+        },
         providers = {
             ripgrep = {
                 module = "blink-ripgrep",
@@ -103,11 +109,11 @@ blink.setup({
     completion = {
         accept = {
             auto_brackets = {
-                enabled = true,
+                enabled = false,
                 semantic_token_resolution = { enabled = true },
             },
         },
-        ghost_text = { enabled = true },
+        ghost_text = { enabled = false, show_with_selection = false },
         documentation = {
             auto_show = true,
             auto_show_delay_ms = 0,
@@ -139,6 +145,7 @@ blink.setup({
         list = {
             selection = {
                 preselect = true,
+                auto_insert = false,
             },
         },
     },

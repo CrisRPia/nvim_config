@@ -118,4 +118,11 @@ require("lazy").setup({
         opts = {}, -- lazy.nvim will implicitly calls `setup {}`
     },
     { "brenoprata10/nvim-highlight-colors" },
+    {
+        "seblyng/roslyn.nvim",
+        ft = "cs",
+        ---@module 'roslyn.config'
+        ---@type RoslynNvimConfig
+        opts = { },
+    },
 })
