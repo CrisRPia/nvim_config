@@ -31,7 +31,7 @@ opt.isfname:append("@-@")
 
 opt.updatetime = 50
 
-opt.colorcolumn = { 80, 100, 120 }
+opt.colorcolumn = { 80, 100, 120, 150 }
 
 opt.laststatus = 3
 

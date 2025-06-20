@@ -60,16 +60,25 @@ end, { silent = true })
 -- })
 
 ls.add_snippets("python", {
-    snippet(
-        "dbg",
-        fmt(
-            [[
-        print(f"{{{n1} = }}")
-    ]],
-            {
-                n1 = insert_node(0, "val"),
-            }
-        )
+    snippet("dbg",
+        fmt([[
+                print(f"{{{n1} = }}")
+            ]],
+            { n1 = insert_node(0, "val"), }
+    )),
+    snippet("ifn",
+        fmt([[
+            if (var := {n1}) is None:
+                raise NotImplementedError()
+                return # TODO
+        ]],
+        { n1 = insert_node(0, "expression") }
+    )),
+    snippet("orn",
+        text_node("| None = None")
+    ),
+    snippet("#b",
+        text_node("# pyright: basic")
     ),
 })
 
