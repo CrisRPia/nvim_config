@@ -41,7 +41,7 @@ require("lazy").setup({
             require("oil").setup()
         end,
     },
-    { "LhKipp/nvim-nu" },
+    -- { "LhKipp/nvim-nu" },
     {
         "rose-pine/neovim",
         name = "rose-pine",
@@ -110,7 +110,7 @@ require("lazy").setup({
         "chomosuke/typst-preview.nvim",
         lazy = false, -- or ft = 'typst'
         version = "1.*",
-        opts = {}, -- lazy.nvim will implicitly calls `setup {}`
+        opts = {},    -- lazy.nvim will implicitly calls `setup {}`
     },
     { "brenoprata10/nvim-highlight-colors" },
     {
@@ -118,6 +118,13 @@ require("lazy").setup({
         ft = "cs",
         ---@module 'roslyn.config'
         ---@type RoslynNvimConfig
-        opts = { },
+        opts = {},
     },
+    { "tpope/vim-fugitive" },
+    {
+        "folke/snacks.nvim",
+        priority = 1000,
+        lazy = false
+    },
+    { "kitagry/bqls.nvim" },
 })

@@ -1,9 +1,12 @@
 return {
     analysis = {
-        diagnosticMode = "workspace",
+        diagnosticMode = "openFilesOnly",
+        autoSearchPaths = true,
         inlayHints = {
-            callArgumentNames = true
+            callArgumentNames = true,
+            genericTypes = true
         },
         typeCheckingMode = "recommended",
+        autoFormatStrings = true,
     }
 }

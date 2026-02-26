@@ -14,8 +14,23 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 local severity = vim.diagnostic.severity
 
-vim.diagnostic.config({
-    virtual_lines = { current_line = true },
+---@alias virtual_line_enum "line" | "all" | "no"
+---@type virtual_line_enum
+local show_virtual_lines = "no"
+
+---@type vim.diagnostic.Opts
+local diagnostic_config = {
+    virtual_lines = function ()
+        if show_virtual_lines == "no" then
+            ---@type vim.diagnostic.Opts.VirtualLines
+            return { format = function() return nil end }
+        elseif show_virtual_lines == "line" then
+            ---@type vim.diagnostic.Opts.VirtualLines
+            return { current_line = true }
+        elseif show_virtual_lines == "all" then
+            return { current_line = false }
+        end
+    end,
     underline = true,
     severity_sort = true,
     update_in_insert = false,
@@ -47,4 +62,25 @@ vim.diagnostic.config({
             [severity.INFO] = "",
         },
     },
-})
+}
+local function reset_diagnostics()
+    vim.diagnostic.config(diagnostic_config)
+end
+
+reset_diagnostics()
+
+vim.keymap.set("n", "<leader>vl", function()
+    ---@type virtual_line_enum[]
+    local order = {"no", "line", "all"}
+
+    for index, value in ipairs(order) do
+        if show_virtual_lines == value then
+            local next_index = (index % #order) + 1
+            show_virtual_lines = order[next_index]
+            break
+        end
+    end
+
+    reset_diagnostics()
+    print("Set virtual lines to " .. show_virtual_lines)
+end)

@@ -2,6 +2,8 @@
 require("nvim-treesitter.configs").setup({
     -- A list of parser names, or "all"
     ensure_installed = {},
+    -- nu grammar is buggy
+    ignore_install = { "nu" },
 
     -- Install parsers synchronously (only applied to `ensure_installed`)
     sync_install = false,
@@ -40,3 +42,21 @@ require("nvim-treesitter.configs").setup({
 })
 
 require("nvim-treesitter.install").prefer_git = true
+
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+parser_config.puzzlescript = {
+  install_info = {
+    url = "~/personal/puzzlescript/tree-sitter-puzzlescript",
+    files = { "src/parser.c" },
+    branch = "main",
+    generate_requires_npm = false,
+    requires_generate_from_grammar = false,
+  },
+  filetype = "puzzlescript",
+}
+
+vim.filetype.add({
+  extension = {
+    puzzlescript = "puzzlescript",
+  },
+})

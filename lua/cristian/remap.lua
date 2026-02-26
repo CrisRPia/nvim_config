@@ -38,7 +38,7 @@ map("n", "<leader>fn", function()
         },
         {
             filetypes = { "python" },
-            formatter = "black",
+            formatter = "ruff",
         },
         {
             filetypes = { "sql", "mysql", "plsql" },
@@ -69,21 +69,6 @@ map("n", "<leader>ih", function()
     print("Inlay hint set to " .. tostring(vim.lsp.inlay_hint.is_enabled({})))
 end)
 
--- Kitty
-map("n", "<leader>s.", function()
-    local parent_dir = vim.fn.expand("%:p:h")
-    local command = "kitty --working-directory " .. parent_dir .. " &"
-    print("Executing: " .. command)
-    vim.fn.system(command)
-end)
-
-map("n", "<leader>sr", function()
-    local root_dir = vim.uv.cwd()
-    local command = "kitty --working-directory " .. root_dir .. " &"
-    print("Executing: " .. command)
-    vim.fn.system(command)
-end)
-
 -- Window switching
 map("n", "<C-h>", "<C-w>h")
 map("n", "<C-j>", "<C-w>j")
@@ -102,3 +87,20 @@ end)
 -- Visual mode indentation remaps
 map("v", ">", ">gv", { desc = "Indent right and keep selection" })
 map("v", "<", "<gv", { desc = "Indent left and keep selection" })
+
+-- Paste from yank
+map("n", "<leader>py", "\"0p")
+map("v", "<leader>py", "\"0p")
+map("n", "<leader>n", ":cnext<CR>")
+map("n", "<leader>N", ":cprev<CR>")
+
+-- for puzzlescript
+map("n", "<leader>pzr", function() reset_ts("puzzlescript") end)
+
+function reset_ts(name)
+    local out = vim.system({ "tree-sitter", "generate"}):wait()
+    print(out.stdout .. out.stderr .. out.code .. out.signal)
+    print(require("nvim-treesitter.install").update(name)())
+    vim.treesitter.stop()
+    vim.treesitter.start()
+end

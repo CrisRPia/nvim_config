@@ -65,21 +65,32 @@ ls.add_snippets("python", {
                 print(f"{{{n1} = }}")
             ]],
             { n1 = insert_node(0, "val"), }
-    )),
+        )),
     snippet("ifn",
         fmt([[
             if (var := {n1}) is None:
                 raise NotImplementedError()
                 return # TODO
         ]],
-        { n1 = insert_node(0, "expression") }
-    )),
+            { n1 = insert_node(0, "expression") }
+        )),
     snippet("orn",
         text_node("| None = None")
     ),
     snippet("#b",
         text_node("# pyright: basic")
     ),
+    snippet("#s",
+        text_node("# pyright: strict")
+    ),
+    snippet("defmain", fmt([[
+        def main():
+            {n1}
+
+
+        if __name__ == "__main__":
+            main()
+    ]], { n1 = insert_node(0, [[print("Hi, mom!")]])})),
 })
 
 ls.add_snippets("javascript", {

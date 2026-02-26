@@ -38,6 +38,9 @@ return {
         Lua = {
             hint = {
                 enable = true,
+            },
+            workspace = {
+                library = {"/Users/cristianrodriguez/.hammerspoon/Spoons/EmmyLua.spoon/annotations" }
             }
         },
     },
